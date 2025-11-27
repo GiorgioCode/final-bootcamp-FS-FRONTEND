@@ -45,7 +45,18 @@ function App() {
         <Router>
             <div className="min-h-screen bg-gray-50 flex flex-col">
                 {/* Componente de notificaciones */}
-                <ToastContainer position="bottom-right" />
+                <ToastContainer
+                    position="top-center"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
 
                 {/* Header de la aplicación */}
                 <Header />

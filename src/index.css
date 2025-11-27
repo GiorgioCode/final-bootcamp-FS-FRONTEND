@@ -15,3 +15,30 @@
             "Helvetica Neue", sans-serif;
     }
 }
+
+/* Custom Toast Styles */
+.Toastify__toast--success {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.Toastify__toast--error {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+.Toastify__toast--warning {
+    background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%) !important;
+}
+
+.Toastify__toast--info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+.Toastify__toast {
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+    font-weight: 500 !important;
+}
+
+.Toastify__progress-bar {
+    background: rgba(255, 255, 255, 0.7) !important;
+}
