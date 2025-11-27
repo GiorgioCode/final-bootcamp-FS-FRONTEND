@@ -152,18 +152,18 @@ const Header = () => {
 
             {/* Menú Móvil */}
             {isMenuOpen && (
-                <div className="md:hidden bg-white border-t">
+                <div className="md:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700">
                     <div className="px-4 pt-2 pb-4 space-y-2">
                         <Link
                             to="/"
-                            className="block px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md"
+                            className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md"
                             onClick={() => setIsMenuOpen(false)}
                         >
                             Inicio
                         </Link>
                         <Link
                             to="/products"
-                            className="block px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md"
+                            className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md"
                             onClick={() => setIsMenuOpen(false)}
                         >
                             Productos
@@ -173,7 +173,7 @@ const Header = () => {
                         {user?.isAdmin && (
                             <Link
                                 to="/admin"
-                                className="block px-3 py-2 text-indigo-600 font-medium hover:bg-indigo-50 rounded-md"
+                                className="block px-3 py-2 text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Panel Admin
@@ -184,34 +184,18 @@ const Header = () => {
                         {isAuthenticated && (
                             <Link
                                 to="/orders"
-                                className="block px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md"
+                                className="block px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Mis Órdenes
                             </Link>
                         )}
 
-                        {/* Botón Carrito Móvil */}
-                        <button
-                            onClick={() => {
-                                toggleCart();
-                                setIsMenuOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md flex items-center justify-between"
-                        >
-                            <span>Carrito</span>
-                            {cartItemsCount > 0 && (
-                                <span className="bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                                    {cartItemsCount}
-                                </span>
-                            )}
-                        </button>
-
                         {/* Login/Logout Móvil */}
                         {isAuthenticated ? (
                             <button
                                 onClick={handleLogout}
-                                className="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 rounded-md flex items-center space-x-2"
+                                className="w-full text-left px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-md flex items-center space-x-2"
                             >
                                 <LogOut className="h-5 w-5" />
                                 <span>Cerrar Sesión ({user?.nombre})</span>
@@ -219,12 +203,43 @@ const Header = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="block px-3 py-2 text-indigo-600 font-medium hover:bg-indigo-50 rounded-md"
+                                className="block px-3 py-2 text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Iniciar Sesión
                             </Link>
                         )}
+
+                        {/* Separador e Iconos (Tema y Carrito) */}
+                        <div className="border-t dark:border-gray-700 pt-4 mt-2 flex justify-center space-x-8">
+                            {/* Botón Tema Móvil (Solo Icono) */}
+                            <button
+                                onClick={() => {
+                                    toggleTheme();
+                                    setIsMenuOpen(false);
+                                }}
+                                className="p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                                title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+                            >
+                                {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+                            </button>
+
+                            {/* Botón Carrito Móvil (Solo Icono) */}
+                            <button
+                                onClick={() => {
+                                    toggleCart();
+                                    setIsMenuOpen(false);
+                                }}
+                                className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                            >
+                                <ShoppingCart className="h-6 w-6" />
+                                {cartItemsCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                        {cartItemsCount}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
