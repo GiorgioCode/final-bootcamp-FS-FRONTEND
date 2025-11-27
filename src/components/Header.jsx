@@ -2,10 +2,11 @@ import React, { useState } from "react";
 // Importar Link y useNavigate para navegación
 import { Link, useNavigate } from "react-router-dom";
 // Importar iconos de lucide-react
-import { ShoppingCart, User, Menu, X, LogOut, Package } from "lucide-react";
+import { ShoppingCart, User, Menu, X, LogOut, Package, Sun, Moon } from "lucide-react";
 // Importar stores
 import { useCartStore } from "../store/useCartStore";
 import { useAuthStore } from "../store/useAuthStore";
+import { useThemeStore } from "../store/useThemeStore";
 
 const Header = () => {
     // Estado para menú móvil
@@ -14,6 +15,8 @@ const Header = () => {
     const { toggleCart, getCurrentCart } = useCartStore();
     // Obtener funciones y estado del store de autenticación
     const { user, logout, isAuthenticated } = useAuthStore();
+    // Obtener funciones y estado del store de tema
+    const { theme, toggleTheme } = useThemeStore();
     const navigate = useNavigate();
 
     // Obtener items del carrito actual
@@ -29,11 +32,11 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-white shadow-md sticky top-0 z-50">
+        <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 transition-colors duration-200">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link to="/" className="text-2xl font-bold text-indigo-600">
+                    <Link to="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
                         GameHub
                     </Link>
 
@@ -41,13 +44,13 @@ const Header = () => {
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/"
-                            className="text-gray-600 hover:text-indigo-600 transition-colors"
+                            className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         >
                             Inicio
                         </Link>
                         <Link
                             to="/products"
-                            className="text-gray-600 hover:text-indigo-600 transition-colors"
+                            className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         >
                             Productos
                         </Link>
@@ -56,7 +59,7 @@ const Header = () => {
                         {user?.isAdmin && (
                             <Link
                                 to="/admin"
-                                className="text-indigo-600 font-medium hover:text-indigo-800 transition-colors"
+                                className="text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
                             >
                                 Panel Admin
                             </Link>
@@ -65,10 +68,19 @@ const Header = () => {
 
                     {/* Iconos Desktop */}
                     <div className="hidden md:flex items-center space-x-6">
+                        {/* Botón de Tema */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                            title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+                        >
+                            {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+                        </button>
+
                         {/* Botón de Carrito */}
                         <button
                             onClick={toggleCart}
-                            className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors"
+                            className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         >
                             <ShoppingCart className="h-6 w-6" />
                             {cartItemsCount > 0 && (
@@ -83,20 +95,20 @@ const Header = () => {
                             <div className="flex items-center space-x-4">
                                 <Link
                                     to="/orders"
-                                    className="flex items-center text-gray-600 hover:text-indigo-600"
+                                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
                                     title="Mis Órdenes"
                                 >
                                     <Package className="h-6 w-6" />
                                 </Link>
                                 <div className="flex items-center space-x-2">
-                                    <User className="h-6 w-6 text-gray-600" />
-                                    <span className="text-sm font-medium text-gray-700">
+                                    <User className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                                         {user?.nombre}
                                     </span>
                                 </div>
                                 <button
                                     onClick={handleLogout}
-                                    className="p-2 text-gray-600 hover:text-red-600 transition-colors"
+                                    className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                                     title="Cerrar Sesión"
                                 >
                                     <LogOut className="h-5 w-5" />
@@ -105,7 +117,7 @@ const Header = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="flex items-center space-x-1 text-gray-600 hover:text-indigo-600 transition-colors"
+                                className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                             >
                                 <User className="h-6 w-6" />
                                 <span>Iniciar Sesión</span>

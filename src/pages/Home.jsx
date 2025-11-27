@@ -34,18 +34,29 @@ const Home = () => {
     return (
         <div className="space-y-12">
             {/* Hero Section */}
-            <section className="relative bg-indigo-600 text-white rounded-2xl overflow-hidden shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-900 to-transparent opacity-50"></div>
+            <section className="relative text-white rounded-2xl overflow-hidden shadow-xl">
+                {/* Animated GIF Background */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: 'url(/src/static/hero.gif)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                ></div>
+                {/* Dark overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+
                 <div className="relative z-10 px-8 py-16 md:py-24 max-w-2xl">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-lg">
                         Descubre la Tecnología del Futuro
                     </h1>
-                    <p className="text-lg md:text-xl mb-8 text-indigo-100">
+                    <p className="text-lg md:text-xl mb-8 text-gray-100 drop-shadow-md">
                         Encuentra los mejores dispositivos y accesorios con ofertas exclusivas. Calidad garantizada y envío rápido.
                     </p>
                     <Link
                         to="/products"
-                        className="inline-flex items-center bg-white text-indigo-600 font-bold py-3 px-8 rounded-full hover:bg-indigo-50 transition-colors shadow-lg"
+                        className="inline-flex items-center bg-white text-indigo-600 font-bold py-3 px-8 rounded-full hover:bg-indigo-50 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                         Ver Catálogo
                         <ArrowRight className="ml-2 h-5 w-5" />
@@ -55,31 +66,31 @@ const Home = () => {
 
             {/* Features Section */}
             <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-                    <div className="p-3 bg-blue-50 rounded-full text-blue-600">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center space-x-4 transition-colors">
+                    <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400">
                         <Truck className="h-8 w-8" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900">Envío Gratis</h3>
-                        <p className="text-sm text-gray-500">En compras mayores a $50.000</p>
+                        <h3 className="font-bold text-gray-900 dark:text-white">Envío Gratis</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">En compras mayores a $50.000</p>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-                    <div className="p-3 bg-green-50 rounded-full text-green-600">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center space-x-4 transition-colors">
+                    <div className="p-3 bg-green-50 dark:bg-green-900/30 rounded-full text-green-600 dark:text-green-400">
                         <Shield className="h-8 w-8" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900">Garantía Segura</h3>
-                        <p className="text-sm text-gray-500">12 meses de garantía oficial</p>
+                        <h3 className="font-bold text-gray-900 dark:text-white">Garantía Segura</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">12 meses de garantía oficial</p>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-                    <div className="p-3 bg-purple-50 rounded-full text-purple-600">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center space-x-4 transition-colors">
+                    <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-full text-purple-600 dark:text-purple-400">
                         <Clock className="h-8 w-8" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900">Soporte 24/7</h3>
-                        <p className="text-sm text-gray-500">Atención al cliente todo el día</p>
+                        <h3 className="font-bold text-gray-900 dark:text-white">Soporte 24/7</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Atención al cliente todo el día</p>
                     </div>
                 </div>
             </section>
@@ -88,12 +99,12 @@ const Home = () => {
             <section>
                 <div className="flex justify-between items-end mb-8">
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">Productos Destacados</h2>
-                        <p className="text-gray-600">Nuestra selección de los más vendidos</p>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Productos Destacados</h2>
+                        <p className="text-gray-600 dark:text-gray-400">Nuestra selección de los más vendidos</p>
                     </div>
                     <Link
                         to="/products"
-                        className="hidden md:flex items-center text-indigo-600 font-medium hover:text-indigo-700"
+                        className="hidden md:flex items-center text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-700 dark:hover:text-indigo-300"
                     >
                         Ver todos <ArrowRight className="ml-1 h-4 w-4" />
                     </Link>
@@ -103,10 +114,10 @@ const Home = () => {
                     // Skeleton loading
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[...Array(4)].map((_, i) => (
-                            <div key={i} className="bg-white rounded-lg shadow-md p-4 animate-pulse">
-                                <div className="bg-gray-200 h-48 rounded-md mb-4"></div>
-                                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                            <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 animate-pulse">
+                                <div className="bg-gray-200 dark:bg-gray-700 h-48 rounded-md mb-4"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
                             </div>
                         ))}
                     </div>
@@ -121,7 +132,7 @@ const Home = () => {
                 <div className="mt-8 text-center md:hidden">
                     <Link
                         to="/products"
-                        className="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-700"
+                        className="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-700 dark:hover:text-indigo-300"
                     >
                         Ver todos los productos <ArrowRight className="ml-1 h-4 w-4" />
                     </Link>

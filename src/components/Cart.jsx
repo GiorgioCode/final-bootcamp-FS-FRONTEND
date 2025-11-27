@@ -76,15 +76,15 @@ const Cart = () => {
             />
 
             <div className="absolute inset-y-0 right-0 max-w-full flex">
-                <div className="w-screen max-w-md transform transition-transform duration-300 ease-in-out bg-white shadow-xl flex flex-col h-full">
-                    <div className="flex items-center justify-between px-4 py-6 bg-gray-50 border-b">
-                        <h2 className="text-lg font-medium text-gray-900 flex items-center">
+                <div className="w-screen max-w-md transform transition-transform duration-300 ease-in-out bg-white dark:bg-gray-800 shadow-xl flex flex-col h-full">
+                    <div className="flex items-center justify-between px-4 py-6 bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-700">
+                        <h2 className="text-lg font-medium text-gray-900 dark:text-white flex items-center">
                             <ShoppingBag className="h-5 w-5 mr-2" />
                             Carrito de Compras
                         </h2>
                         <button
                             onClick={closeCart}
-                            className="text-gray-400 hover:text-gray-500"
+                            className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
                         >
                             <X className="h-6 w-6" />
                         </button>
@@ -93,13 +93,13 @@ const Cart = () => {
                     <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                         {cartItems.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center">
-                                <ShoppingBag className="h-16 w-16 text-gray-300 mb-4" />
-                                <p className="text-gray-500 text-lg mb-4">
+                                <ShoppingBag className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" />
+                                <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
                                     Tu carrito está vacío
                                 </p>
                                 <button
                                     onClick={closeCart}
-                                    className="text-indigo-600 font-medium hover:text-indigo-500"
+                                    className="text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-500 dark:hover:text-indigo-300"
                                 >
                                     Continuar comprando
                                 </button>
@@ -107,8 +107,8 @@ const Cart = () => {
                         ) : (
                             <div className="space-y-8">
                                 {cartItems.map((item) => (
-                                    <div key={item.id} className="flex py-6 border-b">
-                                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                    <div key={item.id} className="flex py-6 border-b dark:border-gray-700">
+                                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-600">
                                             <img
                                                 src={item.imagen}
                                                 alt={item.nombre}
@@ -118,11 +118,12 @@ const Cart = () => {
 
                                         <div className="ml-4 flex flex-1 flex-col">
                                             <div>
-                                                <div className="flex justify-between text-base font-medium text-gray-900">
+                                                <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
                                                     <h3>
                                                         <Link
                                                             to={`/products/${item.id}`}
                                                             onClick={closeCart}
+                                                            className="hover:text-indigo-600 dark:hover:text-indigo-400"
                                                         >
                                                             {item.nombre}
                                                         </Link>
@@ -131,12 +132,12 @@ const Cart = () => {
                                                         ${(item.precio * item.quantity).toLocaleString()}
                                                     </p>
                                                 </div>
-                                                <p className="mt-1 text-sm text-gray-500">
+                                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                                     Precio unitario: ${item.precio.toLocaleString()}
                                                 </p>
                                             </div>
                                             <div className="flex flex-1 items-end justify-between text-sm">
-                                                <div className="flex items-center border rounded-md">
+                                                <div className="flex items-center border dark:border-gray-600 rounded-md">
                                                     <button
                                                         onClick={() =>
                                                             updateQuantity(
@@ -144,12 +145,12 @@ const Cart = () => {
                                                                 Math.max(1, item.quantity - 1)
                                                             )
                                                         }
-                                                        className="p-1 hover:bg-gray-100"
+                                                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                                                         disabled={item.quantity <= 1}
                                                     >
                                                         <Minus className="h-4 w-4" />
                                                     </button>
-                                                    <span className="px-2 font-medium">
+                                                    <span className="px-2 font-medium text-gray-900 dark:text-white">
                                                         {item.quantity}
                                                     </span>
                                                     <button
@@ -159,7 +160,7 @@ const Cart = () => {
                                                                 item.quantity + 1
                                                             )
                                                         }
-                                                        className="p-1 hover:bg-gray-100"
+                                                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                                                     >
                                                         <Plus className="h-4 w-4" />
                                                     </button>
@@ -168,7 +169,7 @@ const Cart = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => removeItem(item.id)}
-                                                    className="font-medium text-red-600 hover:text-red-500 flex items-center"
+                                                    className="font-medium text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 flex items-center"
                                                 >
                                                     <Trash2 className="h-4 w-4 mr-1" />
                                                     Eliminar
@@ -182,12 +183,12 @@ const Cart = () => {
                     </div>
 
                     {cartItems.length > 0 && (
-                        <div className="border-t border-gray-200 px-4 py-6 sm:px-6 bg-gray-50">
-                            <div className="flex justify-between text-base font-medium text-gray-900 mb-4">
+                        <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-6 sm:px-6 bg-gray-50 dark:bg-gray-900">
+                            <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white mb-4">
                                 <p>Subtotal</p>
                                 <p>${subtotal.toLocaleString()}</p>
                             </div>
-                            <p className="mt-0.5 text-sm text-gray-500 mb-6">
+                            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400 mb-6">
                                 Envío e impuestos calculados al finalizar la compra.
                             </p>
 
@@ -214,7 +215,7 @@ const Cart = () => {
                             <div className="mt-4 flex justify-center text-center text-sm text-gray-500">
                                 <button
                                     type="button"
-                                    className="font-medium text-red-600 hover:text-red-500"
+                                    className="font-medium text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300"
                                     onClick={() => {
                                         if (window.confirm("¿Estás seguro de vaciar el carrito?")) {
                                             clearCart();

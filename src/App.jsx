@@ -43,7 +43,7 @@ function App() {
 
     return (
         <Router>
-            <div className="min-h-screen bg-gray-50 flex flex-col">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200">
                 {/* Componente de notificaciones */}
                 <ToastContainer
                     position="top-center"
