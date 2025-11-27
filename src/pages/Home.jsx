@@ -8,6 +8,9 @@ import ProductCard from "../components/ProductCard";
 // Importar iconos
 import { ArrowRight, Star, Truck, Shield, Clock } from "lucide-react";
 
+// Importar imagen de hero
+import heroGif from "../static/hero.gif";
+
 const Home = () => {
     // Estado para productos destacados y loading
     const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -39,7 +42,7 @@ const Home = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                        backgroundImage: 'url(/src/static/hero.gif)',
+                        backgroundImage: `url(${heroGif})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
