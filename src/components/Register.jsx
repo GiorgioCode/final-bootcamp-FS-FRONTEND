@@ -6,8 +6,18 @@ import { authAPI } from "../services/api";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Componente de Registro (Register).
+ * 
+ * Permite a nuevos usuarios crear una cuenta en la plataforma.
+ * Funcionalidades:
+ * 1. Formulario completo de registro (Nombre, Apellido, Email, Password).
+ * 2. Validación de coincidencia de contraseñas.
+ * 3. Comunicación con API de registro.
+ * 4. Manejo de flujo de verificación de email.
+ */
 const Register = () => {
-    // Estado local para el formulario
+    // Estado inicial del formulario
     const [formData, setFormData] = useState({
         nombre: "",
         apellido: "",
@@ -19,10 +29,10 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    // Obtener función de login del store (para auto-login tras registro)
+    // Obtener función de login (aunque en este flujo se pide verificación primero)
     const login = useAuthStore((state) => state.login);
 
-    // Manejar cambios en los inputs
+    // Actualizar estado al escribir en inputs
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -35,7 +45,7 @@ const Register = () => {
         e.preventDefault();
         setError("");
 
-        // Validar que las contraseñas coincidan
+        // Validación local: Contraseñas deben coincidir
         if (formData.password !== formData.confirmPassword) {
             setError("Las contraseñas no coinciden");
             return;
@@ -44,28 +54,31 @@ const Register = () => {
         setLoading(true);
 
         try {
-            // Preparar datos para enviar (excluyendo confirmPassword)
+            // Preparar datos para enviar (excluyendo confirmPassword que es solo para validación frontend)
             const { confirmPassword, ...registerData } = formData;
 
             // Llamar a la API de registro
             const response = await authAPI.register(registerData);
 
             if (response.success) {
-                // Mostrar mensaje de éxito y pedir verificación de email
+                // Registro exitoso
                 toast.success("¡Registro exitoso! Por favor verifica tu email.");
                 setError("");
-                // Mostrar mensaje persistente
+
+                // Limpiar formulario excepto email para feedback visual
                 setFormData({
                     nombre: "",
                     apellido: "",
-                    email: response.data.email, // Mantener el email para mostrarlo
+                    email: response.data.email,
                     password: "",
                     confirmPassword: "",
                 });
-                // Cambiar mensaje de error a un mensaje informativo
+
+                // Mostrar instrucciones claras sobre el siguiente paso (verificación de email)
                 setError(`Hemos enviado un email de verificación a ${response.data.email}. Por favor revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.`);
             }
         } catch (err) {
+            // Manejar errores de registro (ej. email ya existe)
             setError(err.message || "Error al registrarse");
             toast.error(err.message || "Error al registrarse");
         } finally {

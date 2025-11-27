@@ -6,6 +6,15 @@ import { useAuthStore } from "../store/useAuthStore";
 // Importar iconos
 import { Package, Calendar, DollarSign, Clock, CheckCircle, XCircle } from "lucide-react";
 
+/**
+ * Página de Historial de Órdenes (OrderHistory).
+ * 
+ * Muestra las órdenes realizadas por el usuario autenticado.
+ * Funcionalidades:
+ * 1. Obtiene el ID del usuario actual.
+ * 2. Carga las órdenes asociadas a ese usuario.
+ * 3. Muestra detalles de cada orden (productos, total, estado).
+ */
 const OrderHistory = () => {
     // Estado para almacenar la lista de órdenes del usuario
     const [orders, setOrders] = useState([]);

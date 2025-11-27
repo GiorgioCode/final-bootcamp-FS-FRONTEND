@@ -6,7 +6,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { paymentAPI } from "../services/api";
 import { toast } from "react-toastify";
 
+/**
+ * Componente del Carrito de Compras (Cart).
+ * 
+ * Este componente muestra un panel lateral (Drawer) con los productos agregados al carrito.
+ * Permite:
+ * 1. Ver la lista de productos, precios y cantidades.
+ * 2. Modificar cantidades o eliminar productos.
+ * 3. Ver el subtotal de la compra.
+ * 4. Iniciar el proceso de pago (Checkout) a través de MercadoPago.
+ */
 const Cart = () => {
+    // Obtener estado y acciones del store del carrito
     const {
         isOpen,
         closeCart,
@@ -16,18 +27,29 @@ const Cart = () => {
         clearCart,
     } = useCartStore();
 
+    // Obtener estado de autenticación
     const { isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
+    // Obtener items del carrito actual
     const cartItems = getCurrentCart();
 
+    // Calcular subtotal
     const subtotal = cartItems.reduce(
         (acc, item) => acc + item.precio * item.quantity,
         0
     );
 
+    /**
+     * Maneja el proceso de checkout.
+     * 1. Verifica si el usuario está autenticado.
+     * 2. Prepara los items para enviarlos al backend.
+     * 3. Crea una preferencia de pago en MercadoPago.
+     * 4. Redirige al usuario a la URL de pago de MercadoPago.
+     */
     const handleCheckout = async () => {
+        // Verificar autenticación
         if (!isAuthenticated) {
             closeCart();
             navigate("/login");
@@ -40,16 +62,19 @@ const Cart = () => {
 
             console.log("Sending items to backend:", cartItems);
 
+            // Mapear items al formato requerido por el backend/MercadoPago
             const items = cartItems.map((item) => ({
                 title: item.nombre,
                 unit_price: item.precio,
                 quantity: item.quantity,
             }));
 
+            // Crear preferencia de pago
             const response = await paymentAPI.createPreference(items);
 
             console.log("Backend response:", response);
 
+            // Redirigir a MercadoPago si la respuesta es exitosa
             if (response.success && response.id) {
                 const preferenceId = response.id;
                 const checkoutUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;

@@ -8,27 +8,38 @@ import { useCartStore } from "../store/useCartStore";
 import { useAuthStore } from "../store/useAuthStore";
 import { useThemeStore } from "../store/useThemeStore";
 
+/**
+ * Componente Header (Encabezado).
+ * 
+ * Barra de navegación principal que aparece en la parte superior de todas las páginas.
+ * Funcionalidades:
+ * 1. Navegación principal (Inicio, Productos).
+ * 2. Acceso al panel de administración (solo admins).
+ * 3. Cambio de tema (Claro/Oscuro).
+ * 4. Acceso al carrito de compras con contador de items.
+ * 5. Gestión de sesión de usuario (Login/Logout/Perfil).
+ * 6. Menú hamburguesa responsivo para dispositivos móviles.
+ */
 const Header = () => {
-    // Estado para menú móvil
+    // Estado para controlar la visibilidad del menú móvil
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    // Obtener funciones y estado del store de carrito
+
+    // Hooks de los stores globales
     const { toggleCart, getCurrentCart } = useCartStore();
-    // Obtener funciones y estado del store de autenticación
     const { user, logout, isAuthenticated } = useAuthStore();
-    // Obtener funciones y estado del store de tema
     const { theme, toggleTheme } = useThemeStore();
+
     const navigate = useNavigate();
 
-    // Obtener items del carrito actual
+    // Calcular items del carrito para el badge de notificación
     const cartItems = getCurrentCart();
-    // Calcular cantidad total de items
     const cartItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-    // Manejar cierre de sesión
+    // Manejar el cierre de sesión
     const handleLogout = () => {
-        logout();
-        navigate("/login");
-        setIsMenuOpen(false);
+        logout(); // Limpiar estado de auth
+        navigate("/login"); // Redirigir a login
+        setIsMenuOpen(false); // Cerrar menú móvil si está abierto
     };
 
     return (

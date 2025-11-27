@@ -6,6 +6,16 @@ import axios from "axios";
 import { ordersAPI } from "../services/api";
 import { toast } from "react-toastify";
 
+/**
+ * Página de Resultado de Pago (PaymentResult).
+ * 
+ * Maneja el retorno desde la pasarela de pagos (MercadoPago).
+ * Funcionalidades:
+ * 1. Recibe parámetros de la URL (status, payment_id).
+ * 2. Si el pago fue exitoso, crea la orden en el backend.
+ * 3. Limpia el carrito tras una compra exitosa.
+ * 4. Muestra mensajes de éxito, fallo o pendiente.
+ */
 const PaymentResult = ({ status }) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -20,6 +30,7 @@ const PaymentResult = ({ status }) => {
 
     useEffect(() => {
         const processPayment = async () => {
+            // Solo procesar si el estado es 'success' y tenemos un ID de pago
             if (status === "success" && paymentId) {
                 try {
                     const cartItems = getCurrentCart();

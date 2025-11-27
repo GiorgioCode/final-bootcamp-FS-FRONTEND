@@ -6,8 +6,16 @@ import { Users, Trash2, Shield, ShieldOff, Mail, User } from "lucide-react";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Página de Gestión de Usuarios (AdminUsers).
+ * 
+ * Permite a los administradores gestionar los usuarios registrados.
+ * Funcionalidades:
+ * 1. Listado de usuarios con información básica (Nombre, Email, Rol).
+ * 2. Eliminación de usuarios.
+ * 3. Cambio de roles (Promover a Admin / Revocar Admin).
+ */
 const AdminUsers = () => {
-    // Estados para usuarios y loading
     // Estado para almacenar la lista de usuarios
     const [users, setUsers] = useState([]);
     // Estado para controlar el indicador de carga

@@ -4,11 +4,20 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 // Importar iconos
 import { Package, Users, ShoppingBag, BarChart2 } from "lucide-react";
 
+/**
+ * Dashboard de Administración (AdminDashboard).
+ * 
+ * Es el contenedor principal para las páginas de administración.
+ * Funcionalidades:
+ * 1. Muestra un menú de acceso rápido a las secciones (Productos, Usuarios, Órdenes).
+ * 2. Utiliza Outlet para renderizar las sub-rutas de administración.
+ * 3. Muestra un resumen de actividad si se está en la ruta raíz del admin.
+ */
 const AdminDashboard = () => {
     const location = useLocation();
+    // Determinar si estamos en la ruta raíz /admin
     const isExactAdminPath = location.pathname === "/admin";
 
-    // Definición de las tarjetas del dashboard
     // Definición de las tarjetas de navegación del dashboard
     // Cada objeto representa una sección administrativa disponible
     const cards = [
@@ -35,7 +44,7 @@ const AdminDashboard = () => {
         },
     ];
 
-    // Si estamos en una subruta, mostrar solo el contenido de esa ruta
+    // Si estamos en una subruta (ej: /admin/products), mostrar solo el contenido de esa ruta (Outlet)
     if (!isExactAdminPath) {
         return <Outlet />;
     }

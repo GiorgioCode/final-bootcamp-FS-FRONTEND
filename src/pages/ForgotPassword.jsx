@@ -3,6 +3,12 @@ import { authAPI } from "../services/api";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
+/**
+ * Página de Recuperación de Contraseña (ForgotPassword).
+ * 
+ * Permite al usuario solicitar un enlace de restablecimiento de contraseña.
+ * Envía el correo electrónico a la API, que se encarga de enviar el email.
+ */
 const ForgotPassword = () => {
     // Estado para el campo de email
     const [email, setEmail] = useState("");

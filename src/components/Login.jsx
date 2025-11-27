@@ -6,20 +6,32 @@ import { authAPI } from "../services/api";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Componente de Inicio de Sesión (Login).
+ * 
+ * Permite a los usuarios autenticarse en la aplicación.
+ * Funcionalidades:
+ * 1. Formulario para ingresar email y contraseña.
+ * 2. Validación básica de campos.
+ * 3. Comunicación con la API de backend para autenticación.
+ * 4. Manejo de errores y estados de carga.
+ * 5. Redirección al home tras un login exitoso.
+ */
 const Login = () => {
-    // Estado local para el formulario
+    // Estado local para los campos del formulario
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
+    // Estados para manejo de UI (error y carga)
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    // Obtener función de login del store
+    // Obtener función de login del store global
     const login = useAuthStore((state) => state.login);
 
-    // Manejar cambios en los inputs
+    // Actualizar estado al escribir en los inputs
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -27,24 +39,25 @@ const Login = () => {
         });
     };
 
-    // Manejar envío del formulario
+    // Manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
 
         try {
-            // Llamar a la API de login
+            // Realizar petición de login al backend
             const response = await authAPI.login(formData);
 
             if (response.success) {
-                // Guardar usuario y token en el store
+                // Si es exitoso, actualizar el store global con usuario y token
                 login(response.data.user, response.data.token);
                 toast.success(`¡Bienvenido de nuevo, ${response.data.user.nombre}!`);
-                // Redirigir al home
+                // Redirigir a la página principal
                 navigate("/");
             }
         } catch (err) {
+            // Manejar errores (credenciales inválidas, error de servidor, etc.)
             setError(err.message || "Error al iniciar sesión");
             toast.error(err.message || "Error al iniciar sesión");
         } finally {

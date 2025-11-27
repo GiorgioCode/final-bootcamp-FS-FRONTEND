@@ -8,15 +8,24 @@ import { ShoppingCart, Heart, Star } from "lucide-react";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Componente de Tarjeta de Producto (ProductCard).
+ * 
+ * Muestra la información resumida de un producto en una tarjeta.
+ * Se utiliza en los listados de productos.
+ * 
+ * Props:
+ * - product: Objeto con la información del producto (id, nombre, precio, imagen, etc.)
+ */
 const ProductCard = ({ product }) => {
-    // Obtener función para agregar al carrito
+    // Obtener función para agregar al carrito del store global
     const addItem = useCartStore((state) => state.addItem);
 
-    // Manejar agregar al carrito
+    // Manejar el evento de agregar al carrito
     const handleAddToCart = (e) => {
-        e.preventDefault(); // Prevenir navegación al detalle
-        addItem(product); // Usar addItem (nombre correcto del store)
-        toast.success(`¡${product.nombre} agregado al carrito!`);
+        e.preventDefault(); // Evitar que el click navegue a la página de detalle
+        addItem(product); // Agregar producto al store
+        toast.success(`¡${product.nombre} agregado al carrito!`); // Mostrar notificación
     };
 
     return (

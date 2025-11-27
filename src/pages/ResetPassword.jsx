@@ -3,6 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { authAPI } from "../services/api";
 import { toast } from "react-toastify";
 
+/**
+ * Página de Restablecimiento de Contraseña (ResetPassword).
+ * 
+ * Permite al usuario establecer una nueva contraseña utilizando un token válido.
+ * El token se obtiene de la URL (enviado previamente por email).
+ */
 const ResetPassword = () => {
     // Obtener el token de la URL (ej: /reset-password/TOKEN_AQUI)
     const { token } = useParams();

@@ -6,8 +6,16 @@ import { Plus, Edit, Trash2, X, Save, Package } from "lucide-react";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Página de Gestión de Productos (AdminProducts).
+ * 
+ * Permite a los administradores gestionar el catálogo de productos.
+ * Funcionalidades:
+ * 1. CRUD completo de productos (Crear, Leer, Actualizar, Eliminar).
+ * 2. Modal para formulario de creación/edición.
+ * 3. Listado de productos con acciones rápidas.
+ */
 const AdminProducts = () => {
-    // Estados para productos, loading, edición y formulario
     // Estado local para almacenar la lista de productos
     const [products, setProducts] = useState([]);
     // Estado para controlar el indicador de carga

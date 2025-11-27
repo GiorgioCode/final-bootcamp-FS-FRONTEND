@@ -1,5 +1,11 @@
 import React from "react";
 
+/**
+ * Página 404 (No Encontrada).
+ * 
+ * Se muestra cuando el usuario intenta acceder a una ruta que no existe.
+ * Ofrece un enlace para volver al inicio.
+ */
 const NoEncontrada = () => {
     return (
         <div className="text-center py-8 space-y-3">

@@ -2,6 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
+/**
+ * Componente Footer (Pie de página).
+ * 
+ * Muestra información estática al final de todas las páginas, incluyendo:
+ * 1. Información breve sobre la empresa.
+ * 2. Enlaces rápidos de navegación.
+ * 3. Información de contacto.
+ * 4. Enlaces a redes sociales.
+ */
 const Footer = () => {
     return (
         <footer className="bg-gray-900 text-white pt-12 pb-8 mt-auto">

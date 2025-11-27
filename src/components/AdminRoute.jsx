@@ -4,6 +4,18 @@ import { Navigate } from "react-router-dom";
 // Importar store de autenticación
 import { useAuthStore } from "../store/useAuthStore";
 
+/**
+ * Componente de Ruta de Administrador (AdminRoute).
+ * 
+ * Este componente actúa como un wrapper para proteger rutas que solo deben ser accesibles
+ * por usuarios con rol de administrador.
+ * 
+ * Lógica:
+ * 1. Verifica si el usuario está autenticado.
+ * 2. Verifica si el usuario tiene el flag 'isAdmin' en true.
+ * 3. Si cumple ambas condiciones, renderiza el componente hijo.
+ * 4. Si no, redirige a la página de inicio ("/").
+ */
 const AdminRoute = ({ children }) => {
     // Paso 1: Obtener el usuario actual y su estado de autenticación desde el store global
     const { user, isAuthenticated } = useAuthStore();

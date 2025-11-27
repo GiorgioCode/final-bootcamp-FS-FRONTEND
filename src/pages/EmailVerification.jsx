@@ -2,16 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { CheckCircle, XCircle, Clock, Mail } from "lucide-react";
 
+/**
+ * Página de Verificación de Email (EmailVerification).
+ * 
+ * Maneja el resultado del proceso de verificación de correo electrónico.
+ * Recibe parámetros por URL (status, email) para mostrar el mensaje adecuado.
+ * Estados posibles:
+ * - success: Verificación exitosa.
+ * - invalid: Token inválido.
+ * - expired: Token expirado.
+ * - error: Error genérico.
+ */
 const EmailVerification = () => {
     const [searchParams] = useSearchParams();
     const [status, setStatus] = useState(null);
     const [email, setEmail] = useState(null);
 
+    // Obtener parámetros de la URL al montar
     useEffect(() => {
         setStatus(searchParams.get("status"));
         setEmail(searchParams.get("email"));
     }, [searchParams]);
 
+    // Mostrar spinner mientras se determina el estado
     if (!status) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center">
@@ -20,6 +33,7 @@ const EmailVerification = () => {
         );
     }
 
+    // Renderizar contenido basado en el estado de la verificación
     const renderContent = () => {
         switch (status) {
             case "success":

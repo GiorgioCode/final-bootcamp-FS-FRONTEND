@@ -11,6 +11,16 @@ import { ArrowRight, Star, Truck, Shield, Clock } from "lucide-react";
 // Importar imagen de hero
 import heroGif from "../static/hero.gif";
 
+/**
+ * Página de Inicio (Home).
+ * 
+ * Es la página de aterrizaje de la aplicación.
+ * Secciones:
+ * 1. Hero Section: Banner principal con llamada a la acción.
+ * 2. Features Section: Características destacadas (Envío gratis, Garantía, Soporte).
+ * 3. Featured Products: Muestra los primeros 4 productos destacados.
+ * 4. Newsletter: Formulario de suscripción (visual).
+ */
 const Home = () => {
     // Estado para productos destacados y loading
     const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -22,7 +32,7 @@ const Home = () => {
             try {
                 // Obtener todos los productos
                 const data = await productsAPI.getAll();
-                // Seleccionar los primeros 4 como destacados
+                // Seleccionar los primeros 4 como destacados para mostrar en el home
                 setFeaturedProducts(data.slice(0, 4));
             } catch (error) {
                 console.error("Error fetching products:", error);

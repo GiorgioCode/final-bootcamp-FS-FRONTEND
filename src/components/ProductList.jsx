@@ -4,19 +4,29 @@ import ProductCard from "./ProductCard";
 // Importar iconos para filtros
 import { Search, SlidersHorizontal } from "lucide-react";
 
+/**
+ * Componente de Lista de Productos (ProductList).
+ * 
+ * Muestra una grilla de productos con funcionalidades de:
+ * 1. Búsqueda por nombre o descripción.
+ * 2. Filtrado por rango de precios.
+ * 3. Ordenamiento (precio ascendente/descendente, nombre A-Z/Z-A).
+ */
 const ProductList = ({ products }) => {
-    // Estados para filtrado y ordenamiento
+    // Estado local para los productos filtrados que se mostrarán
     const [filteredProducts, setFilteredProducts] = useState(products);
+
+    // Estados para los criterios de filtrado y ordenamiento
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("default");
     const [priceRange, setPriceRange] = useState({ min: "", max: "" });
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useState(false); // Controlar visibilidad de filtros avanzados
 
-    // Efecto para aplicar filtros cuando cambian los criterios o los productos
+    // Efecto que se ejecuta cada vez que cambian los productos o los filtros
     useEffect(() => {
         let result = [...products];
 
-        // Filtrar por término de búsqueda
+        // 1. Filtrar por término de búsqueda (nombre o descripción)
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
             result = result.filter(
@@ -26,7 +36,7 @@ const ProductList = ({ products }) => {
             );
         }
 
-        // Filtrar por rango de precios
+        // 2. Filtrar por rango de precios (mínimo y máximo)
         if (priceRange.min) {
             result = result.filter((product) => product.precio >= Number(priceRange.min));
         }
@@ -34,7 +44,7 @@ const ProductList = ({ products }) => {
             result = result.filter((product) => product.precio <= Number(priceRange.max));
         }
 
-        // Ordenar resultados
+        // 3. Aplicar ordenamiento
         switch (sortBy) {
             case "price-asc":
                 result.sort((a, b) => a.precio - b.precio);
@@ -52,6 +62,7 @@ const ProductList = ({ products }) => {
                 break;
         }
 
+        // Actualizar el estado con los resultados finales
         setFilteredProducts(result);
     }, [products, searchTerm, sortBy, priceRange]);
 
@@ -90,8 +101,8 @@ const ProductList = ({ products }) => {
                         <button
                             onClick={() => setShowFilters(!showFilters)}
                             className={`p-2 rounded-md border ${showFilters
-                                    ? "bg-indigo-50 border-indigo-200 text-indigo-600"
-                                    : "border-gray-300 text-gray-600 hover:bg-gray-50"
+                                ? "bg-indigo-50 border-indigo-200 text-indigo-600"
+                                : "border-gray-300 text-gray-600 hover:bg-gray-50"
                                 }`}
                             title="Filtros"
                         >

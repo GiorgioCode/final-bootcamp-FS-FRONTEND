@@ -4,6 +4,15 @@ import { productsAPI } from "../services/api";
 // Importar componente de lista de productos
 import ProductList from "../components/ProductList";
 
+/**
+ * Página de Catálogo de Productos (Products).
+ * 
+ * Muestra el listado completo de productos disponibles.
+ * Se encarga de:
+ * 1. Obtener los datos de productos desde la API.
+ * 2. Manejar estados de carga y error.
+ * 3. Renderizar el componente ProductList con los datos obtenidos.
+ */
 const Products = () => {
   // Estados para productos, loading y error
   const [products, setProducts] = useState([]);

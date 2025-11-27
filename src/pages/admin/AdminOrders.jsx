@@ -6,8 +6,16 @@ import { ShoppingBag, Calendar, DollarSign, User, CheckCircle, Clock, XCircle, T
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Página de Gestión de Órdenes (AdminOrders).
+ * 
+ * Permite a los administradores ver y gestionar todas las órdenes del sistema.
+ * Funcionalidades:
+ * 1. Listado completo de órdenes con detalles (ID, Usuario, Fecha, Total, Estado).
+ * 2. Eliminación de órdenes.
+ * 3. Visualización de estado (Completado, Pendiente, Cancelado).
+ */
 const AdminOrders = () => {
-    // Estados para órdenes y loading
     // Estado para almacenar la lista de órdenes
     const [orders, setOrders] = useState([]);
     // Estado para controlar el indicador de carga

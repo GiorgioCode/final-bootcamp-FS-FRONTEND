@@ -10,6 +10,16 @@ import { ShoppingCart, ArrowLeft, Truck, Shield, Check } from "lucide-react";
 // Importar toast para notificaciones
 import { toast } from "react-toastify";
 
+/**
+ * Página de Detalle de Producto (ProductDetail).
+ * 
+ * Muestra la información completa de un producto específico.
+ * Funcionalidades:
+ * 1. Obtiene el ID del producto de la URL.
+ * 2. Carga los datos del producto desde la API.
+ * 3. Permite agregar el producto al carrito.
+ * 4. Muestra información de envío y garantía.
+ */
 const ProductDetail = () => {
     // Obtener el ID del producto desde la URL (ej: /products/123)
     const { id } = useParams();

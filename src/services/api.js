@@ -1,7 +1,20 @@
-// URL base de la API
+/**
+ * Configuración y Servicios de API.
+ * 
+ * Este archivo centraliza todas las comunicaciones con el backend.
+ * Incluye:
+ * - Configuración base (URL, headers).
+ * - Interceptores para manejo de tokens y errores.
+ * - Servicios específicos por entidad (Auth, Productos, Órdenes, Usuarios, Pagos).
+ */
+
+// URL base de la API (desde variables de entorno o default a localhost)
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
-// Función para obtener el token de autenticación del sessionStorage
+/**
+ * Obtiene el token de autenticación del almacenamiento de sesión.
+ * @returns {string|null} El token JWT o null si no existe.
+ */
 const getAuthToken = () => {
     if (typeof window !== "undefined") {
         return sessionStorage.getItem("authToken");
@@ -9,7 +22,11 @@ const getAuthToken = () => {
     return null;
 };
 
-// Función para construir headers con autenticación opcional
+/**
+ * Construye los headers para las peticiones HTTP.
+ * @param {boolean} includeAuth - Si true, incluye el header Authorization con el token.
+ * @returns {Object} Objeto con los headers configurados.
+ */
 const getHeaders = (includeAuth = true) => {
     const headers = {
         "Content-Type": "application/json",
@@ -25,7 +42,15 @@ const getHeaders = (includeAuth = true) => {
     return headers;
 };
 
-// Función para manejar la respuesta de la API
+/**
+ * Maneja la respuesta de las peticiones fetch.
+ * - Parsea la respuesta JSON.
+ * - Maneja errores HTTP (401, 403, 500, etc.).
+ * - Gestiona la expiración de sesión (401).
+ * @param {Response} response - Objeto Response de fetch.
+ * @returns {Promise<any>} Datos de la respuesta parseados.
+ * @throws {Error} Si la respuesta no es ok.
+ */
 const handleResponse = async (response) => {
     let data;
     try {
@@ -36,7 +61,7 @@ const handleResponse = async (response) => {
     }
 
     if (!response.ok) {
-        // Si el token expiró, limpiar la sesión y redirigir al login
+        // Si el token expiró o es inválido (401), limpiar la sesión y redirigir al login
         if (response.status === 401) {
             if (typeof window !== "undefined") {
                 sessionStorage.removeItem("authToken");
@@ -45,7 +70,7 @@ const handleResponse = async (response) => {
             }
         }
 
-        // Construir mensaje de error
+        // Construir mensaje de error legible
         const errorMessage =
             data.message ||
             (data.errors && data.errors.length > 0
@@ -58,14 +83,16 @@ const handleResponse = async (response) => {
     return data;
 };
 
-// API de Autenticación
+// ==========================================
+// Servicios de Autenticación
+// ==========================================
 export const authAPI = {
-    // Registro de usuario
+    // Registrar un nuevo usuario
     register: async (userData) => {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: "POST",
-                headers: getHeaders(false),
+                headers: getHeaders(false), // No requiere auth
                 body: JSON.stringify(userData),
             });
             return await handleResponse(response);
@@ -75,12 +102,12 @@ export const authAPI = {
         }
     },
 
-    // Inicio de sesión
+    // Iniciar sesión
     login: async (credentials) => {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: "POST",
-                headers: getHeaders(false),
+                headers: getHeaders(false), // No requiere auth
                 body: JSON.stringify(credentials),
             });
             return await handleResponse(response);
@@ -90,11 +117,11 @@ export const authAPI = {
         }
     },
 
-    // Obtener usuario actual
+    // Obtener perfil del usuario actual
     getMe: async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/me`, {
-                headers: getHeaders(true),
+                headers: getHeaders(true), // Requiere auth
             });
             return await handleResponse(response);
         } catch (error) {
@@ -103,7 +130,7 @@ export const authAPI = {
         }
     },
 
-    // Solicitar recuperación de contraseña
+    // Solicitar recuperación de contraseña (envío de email)
     forgotPassword: async (email) => {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
@@ -118,7 +145,7 @@ export const authAPI = {
         }
     },
 
-    // Restablecer contraseña
+    // Restablecer contraseña con token
     resetPassword: async (token, password) => {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/reset-password/${token}`, {
@@ -134,13 +161,15 @@ export const authAPI = {
     },
 };
 
-// API de Productos
+// ==========================================
+// Servicios de Productos
+// ==========================================
 export const productsAPI = {
     // Obtener todos los productos
     getAll: async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/products`, {
-                headers: getHeaders(false),
+                headers: getHeaders(false), // Público
             });
             const data = await handleResponse(response);
             return data.data || data;
@@ -153,7 +182,7 @@ export const productsAPI = {
     getById: async (id) => {
         try {
             const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-                headers: getHeaders(false),
+                headers: getHeaders(false), // Público
             });
             const data = await handleResponse(response);
             return data.data || data;
@@ -162,7 +191,7 @@ export const productsAPI = {
             throw error;
         }
     },
-    // Crear producto (Admin)
+    // Crear producto (Solo Admin)
     create: async (product) => {
         try {
             const response = await fetch(`${API_BASE_URL}/products`, {
@@ -177,7 +206,7 @@ export const productsAPI = {
             throw error;
         }
     },
-    // Actualizar producto (Admin)
+    // Actualizar producto (Solo Admin)
     update: async (id, product) => {
         try {
             const response = await fetch(`${API_BASE_URL}/products/${id}`, {
@@ -192,7 +221,7 @@ export const productsAPI = {
             throw error;
         }
     },
-    // Eliminar producto (Admin)
+    // Eliminar producto (Solo Admin)
     delete: async (id) => {
         try {
             const response = await fetch(`${API_BASE_URL}/products/${id}`, {
@@ -207,9 +236,11 @@ export const productsAPI = {
     },
 };
 
-// API de Órdenes
+// ==========================================
+// Servicios de Órdenes
+// ==========================================
 export const ordersAPI = {
-    // Crear orden
+    // Crear nueva orden
     create: async (order) => {
         try {
             const response = await fetch(`${API_BASE_URL}/orders`, {
@@ -224,7 +255,7 @@ export const ordersAPI = {
             throw error;
         }
     },
-    // Obtener órdenes del usuario
+    // Obtener historial de órdenes del usuario actual
     getAll: async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/orders`, {
@@ -237,10 +268,10 @@ export const ordersAPI = {
             throw error;
         }
     },
-    // Obtener todas las órdenes (Admin)
+    // Obtener todas las órdenes (Solo Admin)
     getAllAdmin: async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/orders/all`, {
+            const response = await fetch(`${API_BASE_URL}/orders/admin/all`, {
                 headers: getHeaders(true),
             });
             const data = await handleResponse(response);
@@ -250,7 +281,7 @@ export const ordersAPI = {
             throw error;
         }
     },
-    // Eliminar orden (Admin)
+    // Eliminar orden (Solo Admin)
     delete: async (id) => {
         try {
             const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
@@ -265,7 +296,9 @@ export const ordersAPI = {
     },
 };
 
-// API de Usuarios (Admin)
+// ==========================================
+// Servicios de Usuarios (Admin)
+// ==========================================
 export const usersAPI = {
     // Obtener todos los usuarios
     getAll: async () => {
@@ -280,7 +313,7 @@ export const usersAPI = {
             throw error;
         }
     },
-    // Actualizar usuario
+    // Actualizar usuario (ej: cambiar rol)
     update: async (id, userData) => {
         try {
             const response = await fetch(`${API_BASE_URL}/users/${id}`, {
@@ -310,9 +343,11 @@ export const usersAPI = {
     },
 };
 
-// API de Pagos
+// ==========================================
+// Servicios de Pagos (MercadoPago)
+// ==========================================
 export const paymentAPI = {
-    // Crear preferencia de pago
+    // Crear preferencia de pago para iniciar checkout
     createPreference: async (items) => {
         try {
             const response = await fetch(`${API_BASE_URL}/payment/create-preference`, {
@@ -328,7 +363,11 @@ export const paymentAPI = {
     },
 };
 
-// Verificar salud del servidor
+// ==========================================
+// Utilidades Generales
+// ==========================================
+
+// Verificar salud del servidor (Health Check)
 export const checkServerHealth = async () => {
     try {
         const response = await fetch(`${API_BASE_URL}/health`);
