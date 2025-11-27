@@ -3,7 +3,7 @@ import { X, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { paymentAPI } from "../services/api";
 import { toast } from "react-toastify";
 
 const Cart = () => {
@@ -37,30 +37,21 @@ const Cart = () => {
 
         try {
             setIsLoading(true);
-            const token = sessionStorage.getItem("authToken");
 
             console.log("Sending items to backend:", cartItems);
 
-            const response = await axios.post(
-                "http://localhost:3001/api/payment/create-preference",
-                {
-                    items: cartItems.map((item) => ({
-                        title: item.nombre,
-                        unit_price: item.precio,
-                        quantity: item.quantity,
-                    })),
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const items = cartItems.map((item) => ({
+                title: item.nombre,
+                unit_price: item.precio,
+                quantity: item.quantity,
+            }));
 
-            console.log("Backend response:", response.data);
+            const response = await paymentAPI.createPreference(items);
 
-            if (response.data.success && response.data.id) {
-                const preferenceId = response.data.id;
+            console.log("Backend response:", response);
+
+            if (response.success && response.id) {
+                const preferenceId = response.id;
                 const checkoutUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
                 console.log("Redirecting to:", checkoutUrl);
                 window.location.href = checkoutUrl;
@@ -69,8 +60,7 @@ const Cart = () => {
             }
         } catch (error) {
             console.error("Error al procesar el pago:", error);
-            console.error("Error response:", error.response?.data);
-            toast.error(error.response?.data?.message || "Error al procesar el pago. Intente nuevamente.");
+            toast.error(error.message || "Error al procesar el pago. Intente nuevamente.");
         } finally {
             setIsLoading(false);
         }
