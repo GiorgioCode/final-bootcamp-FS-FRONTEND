@@ -198,7 +198,6 @@ export const productsAPI = {
             const response = await fetch(`${API_BASE_URL}/products/${id}`, {
                 method: "DELETE",
                 headers: getHeaders(true),
-                body: JSON.stringify(product),
             });
             return await handleResponse(response);
         } catch (error) {
@@ -257,7 +256,6 @@ export const ordersAPI = {
             const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
                 method: "DELETE",
                 headers: getHeaders(true),
-                body: JSON.stringify(order),
             });
             return await handleResponse(response);
         } catch (error) {
@@ -303,7 +301,6 @@ export const usersAPI = {
             const response = await fetch(`${API_BASE_URL}/users/${id}`, {
                 method: "DELETE",
                 headers: getHeaders(true),
-                body: JSON.stringify(userData),
             });
             return await handleResponse(response);
         } catch (error) {
